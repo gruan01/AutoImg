@@ -1,10 +1,13 @@
 ﻿using AutoImg.Core.Common;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AutoImg.Core
 {
@@ -13,13 +16,17 @@ namespace AutoImg.Core
 
         private static readonly Regex Reg = new Regex(@"(?<p>[\w\W]+?)\.auto\.(?<type>[\w\d]+)\.(?<ext>gif|png|jpg)$", RegexOptions.IgnoreCase);
 
-
-
         private PhysicalFileProvider Phyical;
 
-        public AutoImgFileProvider(string root)
+        private AutoImgCfg Cfg;
+
+        private IServiceProvider SP;
+
+        public AutoImgFileProvider(AutoImgCfg cfg, IServiceProvider sp)
         {
-            this.Phyical = new PhysicalFileProvider(root);
+            this.SP = sp;
+            this.Cfg = cfg;
+            this.Phyical = new PhysicalFileProvider(cfg.BaseDir);
         }
 
         public IDirectoryContents GetDirectoryContents(string subpath)
@@ -29,6 +36,9 @@ namespace AutoImg.Core
 
         public IFileInfo GetFileInfo(string subpath)
         {
+
+            var a = this.SP.GetService<IOptions<AutoImgCfg>>();
+
             var fi = this.Phyical.GetFileInfo(subpath);
             if (!fi.Exists)
             {
@@ -44,7 +54,7 @@ namespace AutoImg.Core
                     if (File.Exists(orgPath))
                     {
                         var type = ma.Groups["type"].Value;
-                        var sizeType = JsonConfig.Get<SizeTypeConfig>()?.Types?.FirstOrDefault(t => t.Name.Equals(type, StringComparison.OrdinalIgnoreCase));
+                        var sizeType = this.Cfg?.Types?.FirstOrDefault(t => t.Name.Equals(type, StringComparison.OrdinalIgnoreCase));
                         if (sizeType != null)
                         {
                             ImageResizer.Deal(orgPath, sizeType, path);

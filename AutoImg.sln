@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoImg.Core", "AutoImg.Core\AutoImg.Core.csproj", "{A05A7E62-63B6-4D61-A7D9-BEA9A48B3DC7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoImg.Fx", "AutoImg.Fx\AutoImg.Fx.csproj", "{5D5A0038-C21D-4308-BD50-55B97A30BEEB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A05A7E62-63B6-4D61-A7D9-BEA9A48B3DC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A05A7E62-63B6-4D61-A7D9-BEA9A48B3DC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A05A7E62-63B6-4D61-A7D9-BEA9A48B3DC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D5A0038-C21D-4308-BD50-55B97A30BEEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D5A0038-C21D-4308-BD50-55B97A30BEEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D5A0038-C21D-4308-BD50-55B97A30BEEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D5A0038-C21D-4308-BD50-55B97A30BEEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
