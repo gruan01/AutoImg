@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.FileProviders;
-using AutoImg.Core.Common;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Logging;
 
 namespace AutoImg.Core
 {
@@ -27,6 +19,7 @@ namespace AutoImg.Core
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                //加载自定义 json 配置文件
                 .AddJsonFile("AutoImg.json", true, true)
                 .AddEnvironmentVariables();
 
@@ -41,8 +34,7 @@ namespace AutoImg.Core
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddOptions()
-                    .Configure<AutoImgCfg>(Configuration);
+            //services.AddOptions();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -54,9 +46,10 @@ namespace AutoImg.Core
                 app.UseDeveloperExceptionPage();
             }
 
-            var cfg = app.ApplicationServices.GetService<IOptions<AutoImgCfg>>();
-            var ap = new AutoImgFileProvider(cfg.Value, app.ApplicationServices);
-
+            #region static file
+            ///
+            var ap = new AutoImgFileProvider(this.Configuration);
+            //优先 WebRootFileProvider , 如果文件在它中能找得到,就不在去 AutoImageFileProvider 中在找一次了.
             var cp = new CompositeFileProvider(env.WebRootFileProvider, ap);
             var opt = new StaticFileOptions()
             {
@@ -64,6 +57,7 @@ namespace AutoImg.Core
             };
 
             app.UseStaticFiles(opt);
+            #endregion
         }
     }
 }

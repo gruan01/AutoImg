@@ -9,40 +9,65 @@ using System.Web.Hosting;
 
 namespace AutoImg.Fx.Common
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class VImgFile : VirtualFile
     {
-        private static readonly string[] ImgExts = new string[] { "GIF", "JPG", "PNG" };
+        /// <summary>
+        /// 规则
+        /// </summary>
         private static readonly Regex Reg = new Regex(@"(?<p>[\w\W]+?)\.auto\.(?<type>[\w\d]+)\.(?<ext>gif|png|jpg)$", RegexOptions.IgnoreCase);
 
-        private static readonly string SiteRoot = AppDomain.CurrentDomain.BaseDirectory;
-
+        /// <summary>
+        /// 目标文件夹
+        /// </summary>
         private string BaseDir { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="virtualPath"></param>
+        /// <param name="baseDir"></param>
         public VImgFile(string virtualPath, string baseDir) : base(virtualPath)
         {
             this.BaseDir = baseDir;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override Stream Open()
         {
+            //目标文件路径
             var path = Path.Combine(this.BaseDir, this.VirtualPath.TrimStart('/'));
 
             if (!File.Exists(path))
             {
                 var ma = Reg.Match(path);
-                var p = ma.Groups["p"].Value;
-                var ext = ma.Groups["ext"].Value;
-                var orgPath = $"{p}.{ext}";
-                if (File.Exists(orgPath))
+                //满足规则
+                if (ma.Success)
                 {
+                    var p = ma.Groups["p"].Value;
+                    var ext = ma.Groups["ext"].Value;
                     var type = ma.Groups["type"].Value;
                     var sizeType = JsonConfig.Get<SizeTypeConfig>()?.Types?.FirstOrDefault(t => t.Name.Equals(type, StringComparison.OrdinalIgnoreCase));
-                    if (sizeType != null)
+
+                    //规则拆分后的源原文件
+                    var orgPath = $"{p}.{ext}";
+
+                    //如果源文件存在, 如果规则存在
+                    if (sizeType != null && File.Exists(orgPath))
                     {
-                        ImageResizer.Deal(orgPath, sizeType, path);
+                        if (sizeType != null)
+                        {
+                            ImageResizer.Deal(orgPath, sizeType, path);
+                        }
                     }
                 }
             }
+            //如果目标文件已存在,直接返回
             return File.Open(path, FileMode.Open, FileAccess.Read);
         }
 
