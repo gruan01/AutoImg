@@ -16,33 +16,6 @@
       "name": "s3",
       "width": 113,
       "height": 128
-    },	
-    {
-      "name": "s4",
-      "width": 414,
-      "height": 200,
-	    "quality":70
-    },		
-    {
-      "name": "s5",
-      "width": 233,
-      "height": 168
-    },	
-    {
-      "name": "s6",
-      "width": 160,
-      "height": 150
-    },	
-    {
-      "name": "s7",
-      "width": 420,
-      "height": 200
-    },		
-    {
-       "name": "mb1",
-       "width": 400,
-       "height": 228,
-       "model": "crop"
     }
   ]
 }

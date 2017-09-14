@@ -34,7 +34,12 @@ namespace AutoImg.Fx.Common
 
         public override bool FileExists(string virtualPath)
         {
-            return this.GetFile(virtualPath) != null;
+            return (
+                    virtualPath.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
+                    virtualPath.EndsWith(".png", StringComparison.OrdinalIgnoreCase) ||
+                    virtualPath.EndsWith(".gif", StringComparison.OrdinalIgnoreCase)
+                ) && 
+                this.GetFile(virtualPath) != null;
         }
 
         public override VirtualFile GetFile(string virtualPath)
