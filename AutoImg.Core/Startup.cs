@@ -48,15 +48,15 @@ namespace AutoImg.Core
 
             #region static file
             ///
-var ap = new AutoImgFileProvider(this.Configuration);
-//优先 WebRootFileProvider , 如果文件在它中能找得到,就不在去 AutoImageFileProvider 中在找一次了.
-var cp = new CompositeFileProvider(env.WebRootFileProvider, ap);
-var opt = new StaticFileOptions()
-{
-    FileProvider = cp
-};
+            var ap = new AutoImgFileProvider(this.Configuration);
+            //优先 WebRootFileProvider , 如果文件在它中能找得到,就不在去 AutoImageFileProvider 中在找一次了.
+            var cp = new CompositeFileProvider(env.WebRootFileProvider, ap);
+            var opt = new StaticFileOptions()
+            {
+                FileProvider = cp
+            };
 
-app.UseStaticFiles(opt);
+            app.UseStaticFiles(opt);
             #endregion
         }
     }

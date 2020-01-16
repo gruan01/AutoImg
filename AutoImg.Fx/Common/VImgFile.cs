@@ -17,7 +17,7 @@ namespace AutoImg.Fx.Common
         /// <summary>
         /// 规则
         /// </summary>
-        private static readonly Regex Reg = new Regex(@"(?<p>[\w\W]+?)\.auto\.(?<type>[\w\d]+)\.(?<ext>gif|png|jpg)$", RegexOptions.IgnoreCase);
+        private static readonly Regex Reg = new Regex(@"(?<p>[\w\W]+?)\.auto\.(?<type>[\w\d]+)\.(?<ext>gif|png|jpg|jpeg)$", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 目标文件夹

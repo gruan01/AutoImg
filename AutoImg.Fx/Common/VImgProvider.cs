@@ -36,6 +36,7 @@ namespace AutoImg.Fx.Common
         {
             return (
                     virtualPath.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
+                    virtualPath.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase) ||
                     virtualPath.EndsWith(".png", StringComparison.OrdinalIgnoreCase) ||
                     virtualPath.EndsWith(".gif", StringComparison.OrdinalIgnoreCase)
                 ) && 
